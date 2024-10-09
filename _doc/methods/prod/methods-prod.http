@@ -1,0 +1,28 @@
+### Crear un nuevo usuario
+POST https://example.com/api/users
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### Obtener todos los usuarios
+GET https://example.com/api/users
+
+### Obtener un usuario por ID
+GET https://example.com/api/users/1
+
+### Actualizar un usuario por ID
+PATCH https://example.com/api/users/1
+Content-Type: application/json
+
+{
+  "firstName": "Johnathan",
+  "lastName": "Doe"
+}
+
+### Eliminar un usuario por ID
+DELETE https://example.com/api/users/1

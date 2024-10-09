@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/component/layout.js"></script>
+    <title>User Management</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      button {
+        margin-top: 10px;
+      }
+      pre {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      main h2 {
+        margin-top: 2em;
+      }
+      pre {
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>User Management</h1>
+
+      <section>
+        <h2>Create User</h2>
+        <form id="createUserForm">
+          <input type="email" id="email" placeholder="Email" value="john.doe@example.com" required /><br />
+          <input type="password" id="password" placeholder="Password" value="password123" required /><br />
+          <input type="text" id="firstName" placeholder="First Name" value="John" required /><br />
+          <input type="text" id="lastName" placeholder="Last Name" value="Doe" required /><br />
+          <button type="submit">Create User</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Get All Users</h2>
+        <button id="getAllUsersBtn">Get All Users</button>
+        <pre id="allUsersOutput"></pre>
+      </section>
+
+      <section>
+        <h2>Get User by ID</h2>
+        <input type="number" id="getUserId" placeholder="User ID" value="1" /><br />
+        <button id="getUserBtn">Get User</button>
+        <pre id="getUserOutput"></pre>
+      </section>
+
+      <section>
+        <h2>Update User by ID</h2>
+        <input type="number" id="updateUserId" placeholder="User ID" value="1" /><br />
+        <input type="text" id="updateFirstName" placeholder="New First Name" value="Johnathan" /><br />
+        <input type="text" id="updateLastName" placeholder="New Last Name" value="Doe" /><br />
+        <button id="updateUserBtn">Update User</button>
+        <pre id="updateUserOutput"></pre>
+      </section>
+
+      <section>
+        <h2>Delete User by ID</h2>
+        <input type="number" id="deleteUserId" placeholder="User ID" value="1" /><br />
+        <button id="deleteUserBtn">Delete User</button>
+        <pre id="deleteUserOutput"></pre>
+      </section>
+
+      <script>
+        const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+        const apiUrlBase = isLocalhost ? "http://localhost:3000" : "";
+        const apiUrl = `${apiUrlBase}/api/users`;
+
+        // Create User
+        document.getElementById("createUserForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const firstName = document.getElementById("firstName").value;
+          const lastName = document.getElementById("lastName").value;
+
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password, firstName, lastName }),
+          });
+          const result = await response.json();
+          alert("User created: " + JSON.stringify(result));
+        });
+
+        // Get All Users
+        document.getElementById("getAllUsersBtn").addEventListener("click", async () => {
+          const response = await fetch(apiUrl);
+          const result = await response.json();
+          document.getElementById("allUsersOutput").textContent = JSON.stringify(result, null, 2);
+        });
+
+        // Get User by ID
+        document.getElementById("getUserBtn").addEventListener("click", async () => {
+          const userId = document.getElementById("getUserId").value;
+          const response = await fetch(`${apiUrl}/${userId}`);
+          const result = await response.json();
+          document.getElementById("getUserOutput").textContent = JSON.stringify(result, null, 2);
+        });
+
+        // Update User by ID
+        document.getElementById("updateUserBtn").addEventListener("click", async () => {
+          const userId = document.getElementById("updateUserId").value;
+          const firstName = document.getElementById("updateFirstName").value;
+          const lastName = document.getElementById("updateLastName").value;
+
+          const response = await fetch(`${apiUrl}/${userId}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ firstName, lastName }),
+          });
+          const result = await response.json();
+          document.getElementById("updateUserOutput").textContent = JSON.stringify(result, null, 2);
+        });
+
+        // Delete User by ID
+        document.getElementById("deleteUserBtn").addEventListener("click", async () => {
+          const userId = document.getElementById("deleteUserId").value;
+          const response = await fetch(`${apiUrl}/${userId}`, {
+            method: "DELETE",
+          });
+          const result = await response.json();
+          document.getElementById("deleteUserOutput").textContent = JSON.stringify(result, null, 2);
+        });
+      </script>
+    </main>
+  </body>
+</html>
