@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import typeOrmConfig from './config/typeorm';
 import { UserModule } from './user/user.module';
 import { SeederModule } from './seeder/seeder.module';
-// import { UserModule } from './modules/users/user.module';
 
 @Module({
   imports: [

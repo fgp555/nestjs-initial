@@ -14,7 +14,7 @@ const typeOrmConfig = {
   port: (process.env.DB_PORT as unknown as number) || 3306,
   username: process.env.DB_USERNAME || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_DATABASE || 'initial_db',
+  database: process.env.DB_DATABASE || 'my_db',
   dropSchema: process.env.DROPSCHEMA === 'true', // Convert string to boolean
   autoloadEntities: true,
   //logging: true,

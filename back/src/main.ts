@@ -21,10 +21,6 @@ async function bootstrap() {
     prefix: '/uploads/',
   });
 
-  app.useStaticAssets(join(__dirname, '..', '..', '_doc', 'html'), {
-    prefix: '/html/',
-  });
-
   app.useStaticAssets(join(__dirname, '..', '..', 'front'), {
     prefix: '/',
   });

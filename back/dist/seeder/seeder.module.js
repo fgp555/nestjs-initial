@@ -10,7 +10,7 @@ exports.SeederModule = void 0;
 const common_1 = require("@nestjs/common");
 const seeder_service_1 = require("./seeder.service");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("../user/user.entity");
+const user_entity_1 = require("../user/entities/user.entity");
 let SeederModule = class SeederModule {
 };
 exports.SeederModule = SeederModule;
