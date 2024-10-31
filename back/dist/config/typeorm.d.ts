@@ -6,7 +6,6 @@ declare const _default: (() => {
     username: string;
     password: string;
     database: string;
-    dropSchema: boolean;
     autoloadEntities: boolean;
     logging: string[];
     entities: string[];
@@ -19,7 +18,6 @@ declare const _default: (() => {
     username: string;
     password: string;
     database: string;
-    dropSchema: boolean;
     autoloadEntities: boolean;
     logging: string[];
     entities: string[];

@@ -5,7 +5,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeOrmConfig from './config/typeorm';
 import { UserModule } from './user/user.module';
-import { SeederModule } from './seeder/seeder.module';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { SeederModule } from './seeder/seeder.module';
         configService.get('typeorm'),
     }),
     UserModule,
-    SeederModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -14,7 +14,6 @@ const typeOrmConfig = {
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_DATABASE || 'my_db',
-    dropSchema: process.env.DROPSCHEMA === 'true',
     autoloadEntities: true,
     logging: ['error'],
     entities: ['dist/**/*.entity{.ts,.js}'],
