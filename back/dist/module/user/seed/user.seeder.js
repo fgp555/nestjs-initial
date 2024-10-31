@@ -12,12 +12,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SeederService = void 0;
+exports.UserSeederService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("../user/entities/user.entity");
+const user_entity_1 = require("../entities/user.entity");
 const typeorm_2 = require("typeorm");
-let SeederService = class SeederService {
+let UserSeederService = class UserSeederService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
@@ -27,27 +27,34 @@ let SeederService = class SeederService {
                 email: 'john.doe@example.com',
                 password: 'password123',
                 firstName: 'John',
-                lastName: 'Doe',
             },
             {
                 email: 'jane.doe@example.com',
                 password: 'password123',
                 firstName: 'Jane',
-                lastName: 'Doe',
             },
         ];
         const savedUsers = [];
         for (const userData of usersData) {
-            const user = await this.userRepository.save(userData);
-            savedUsers.push(user);
+            const existingUser = await this.userRepository.findOne({
+                where: { email: userData.email },
+            });
+            if (!existingUser) {
+                const user = await this.userRepository.save(userData);
+                savedUsers.push(user);
+            }
+            else {
+                console.log(`Usuarios ya existe, omitiendo creación.`);
+                return;
+            }
         }
-        console.log('Datos de prueba creados con éxito');
+        console.log('Seeder de usuarios creados con éxito');
     }
 };
-exports.SeederService = SeederService;
-exports.SeederService = SeederService = __decorate([
+exports.UserSeederService = UserSeederService;
+exports.UserSeederService = UserSeederService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.UserEntity)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
-], SeederService);
-//# sourceMappingURL=seeder.service.js.map
+], UserSeederService);
+//# sourceMappingURL=user.seeder.js.map

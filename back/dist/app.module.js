@@ -13,8 +13,7 @@ const app_service_1 = require("./app.service");
 const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("./config/typeorm");
-const user_module_1 = require("./user/user.module");
-const seeder_module_1 = require("./seeder/seeder.module");
+const user_module_1 = require("./module/user/user.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -30,7 +29,6 @@ exports.AppModule = AppModule = __decorate([
                 useFactory: (configService) => configService.get('typeorm'),
             }),
             user_module_1.UserModule,
-            seeder_module_1.SeederModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

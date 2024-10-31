@@ -1,3 +1,5 @@
+// back/src/config/typeorm.ts
+
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { config as dotevn } from 'dotenv';
 import { registerAs } from '@nestjs/config';
@@ -15,7 +17,7 @@ const typeOrmConfig = {
   username: process.env.DB_USERNAME || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_DATABASE || 'my_db',
-  dropSchema: process.env.DROPSCHEMA === 'true', // Convert string to boolean
+  // dropSchema: process.env.DROPSCHEMA === 'true', // Convert string to boolean
   autoloadEntities: true,
   //logging: true,
   logging: ['error'],

@@ -3,7 +3,9 @@ POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "firstName": "John"
+  "firstName": "Frank",
+  "email": "frank@example.com",
+  "password": "password123"
 }
 
 ### Obtener todos los usuarios
@@ -17,8 +19,9 @@ PATCH http://localhost:3000/api/users/1
 Content-Type: application/json
 
 {
-  "firstName": "Johnathan",
-  "lastName": "Doe"
+  "firstName": "John222",
+  "email": "john.doe222@example.com",
+  "password": "password123222"
 }
 
 ### Eliminar un usuario por ID

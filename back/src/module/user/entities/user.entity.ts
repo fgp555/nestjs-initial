@@ -3,7 +3,6 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('users')
@@ -14,12 +13,15 @@ export class UserEntity {
   @Column({ length: 100 })
   firstName: string;
 
-  @Column({nullable: true})
+  @Column()
+  email: string;
+
+  @Column({ select: false })
+  password: string;
+
+  @Column({ nullable: true, default: 'https://bit.ly/fgpImg1' })
   image: string;
 
   @CreateDateColumn()
   createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

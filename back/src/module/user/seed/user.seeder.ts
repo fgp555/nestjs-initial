@@ -1,12 +1,10 @@
-// src/seeder/seeder.service.ts
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class SeederService {
+export class UserSeederService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -19,23 +17,31 @@ export class SeederService {
         email: 'john.doe@example.com',
         password: 'password123',
         firstName: 'John',
-        lastName: 'Doe',
       },
       {
         email: 'jane.doe@example.com',
         password: 'password123',
         firstName: 'Jane',
-        lastName: 'Doe',
       },
     ];
 
     // Guardar usuarios
     const savedUsers = [];
     for (const userData of usersData) {
-      const user = await this.userRepository.save(userData);
-      savedUsers.push(user);
+      // Verificar si el usuario ya existe
+      const existingUser = await this.userRepository.findOne({
+        where: { email: userData.email },
+      });
+
+      if (!existingUser) {
+        const user = await this.userRepository.save(userData);
+        savedUsers.push(user);
+      } else {
+        console.log(`Usuarios ya existe, omitiendo creación.`);
+        return;
+      }
     }
 
-    console.log('Datos de prueba creados con éxito');
+    console.log('Seeder de usuarios creados con éxito');
   }
 }
