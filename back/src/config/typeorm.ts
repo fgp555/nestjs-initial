@@ -1,12 +1,12 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { config as dotevn } from 'dotenv';
+import { config as dotenv } from 'dotenv';
 import { registerAs } from '@nestjs/config';
 
-dotevn({ path: '.env' });
+dotenv({ path: '.env' });
 
 console.info('dropSchema: ', process.env.DROPSCHEMA);
 console.info('DB_TYPE: ', process.env.DB_TYPE);
-// console.info("EMAIL_USER: ", process.env.EMAIL_USER)
+console.info('DB_DATABASE: ', process.env.DB_DATABASE);
 
 const typeOrmConfig = {
   type: process.env.DB_TYPE || 'mysql',
@@ -15,16 +15,18 @@ const typeOrmConfig = {
   username: process.env.DB_USERNAME || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_DATABASE || 'my_db',
-  // dropSchema: process.env.DROPSCHEMA === 'true', // Convert string to boolean
+  synchronize: process.env.DROPSCHEMA === 'true',
+  dropSchema: process.env.DROPSCHEMA === 'true',
   autoloadEntities: true,
   //logging: true,
   logging: ['error'],
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
-  synchronize: true,
 };
 
 export default registerAs('typeorm', () => typeOrmConfig);
+
+// para la migracion
 export const conectionSource = new DataSource(
   typeOrmConfig as DataSourceOptions,
 );

@@ -1,0 +1,36 @@
+### 
+GET http://localhost:3000/api/info/
+
+### endpoints
+GET http://localhost:3000/api/info/endpoints
+
+### system
+GET http://localhost:3000/api/info/system
+
+### time
+GET http://localhost:3000/api/info/time
+
+### infoDatabase
+GET http://localhost:3000/api/info/infoDatabase
+
+### entities
+GET http://localhost:3000/api/info/entities
+
+### package.json
+GET http://localhost:3000/api/info/package.json
+
+### domain
+GET http://localhost:3000/api/info/domain
+Content-Type: application/json
+Authorization: 1234
+
+### cookies
+GET http://localhost:3000/api/info/cookies
+
+### resetDatabase
+DELETE http://localhost:3000/api/info/resetDatabase
+Authorization: true
+
+
+### runMigrations
+POST http://localhost:3000/api/info/runMigrations
