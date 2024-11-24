@@ -26,6 +26,7 @@ export declare class InfoService {
         serverTime: Date;
         databaseTime: any;
     }>;
+    dropDatabase(): Promise<string>;
     resetDatabase(): Promise<string>;
     getDatabaseInfo(): {
         password: string;

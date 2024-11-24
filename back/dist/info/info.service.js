@@ -47,6 +47,11 @@ let InfoService = class InfoService {
             databaseTime,
         };
     }
+    async dropDatabase() {
+        await this.dataSource.dropDatabase();
+        console.log('Database schema dropped successfully');
+        return 'dropDatabase successfully';
+    }
     async resetDatabase() {
         await this.dataSource.dropDatabase();
         console.log('Database schema dropped successfully');

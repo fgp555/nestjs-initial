@@ -15,7 +15,7 @@ import * as path from 'path';
 import { InfoGuard } from './guard/info.guard';
 
 @Controller('info')
-@UseGuards(InfoGuard)
+// @UseGuards(InfoGuard)
 export class InfoController {
   constructor(private readonly infoService: InfoService) {}
 
@@ -43,6 +43,14 @@ export class InfoController {
   resetDatabase(@Req() request: Request) {
     if (request.headers.authorization == process.env.DROPSCHEMA) {
       return this.infoService.resetDatabase();
+    }
+    throw new UnauthorizedException('Unauthorized');
+  }
+
+  @Delete('dropDatabase')
+  dropDatabase(@Req() request: Request) {
+    if (request.headers.authorization == process.env.DROPSCHEMA) {
+      return this.infoService.dropDatabase();
     }
     throw new UnauthorizedException('Unauthorized');
   }

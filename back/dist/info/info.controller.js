@@ -18,7 +18,6 @@ const info_service_1 = require("./info.service");
 const common_2 = require("@nestjs/common");
 const fs = require("fs");
 const path = require("path");
-const info_guard_1 = require("./guard/info.guard");
 let InfoController = class InfoController {
     constructor(infoService) {
         this.infoService = infoService;
@@ -38,6 +37,12 @@ let InfoController = class InfoController {
     resetDatabase(request) {
         if (request.headers.authorization == process.env.DROPSCHEMA) {
             return this.infoService.resetDatabase();
+        }
+        throw new common_1.UnauthorizedException('Unauthorized');
+    }
+    dropDatabase(request) {
+        if (request.headers.authorization == process.env.DROPSCHEMA) {
+            return this.infoService.dropDatabase();
         }
         throw new common_1.UnauthorizedException('Unauthorized');
     }
@@ -135,6 +140,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], InfoController.prototype, "resetDatabase", null);
 __decorate([
+    (0, common_1.Delete)('dropDatabase'),
+    __param(0, (0, common_2.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], InfoController.prototype, "dropDatabase", null);
+__decorate([
     (0, common_1.Get)('package.json'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -181,7 +193,6 @@ __decorate([
 ], InfoController.prototype, "getEnvFile", null);
 exports.InfoController = InfoController = __decorate([
     (0, common_1.Controller)('info'),
-    (0, common_1.UseGuards)(info_guard_1.InfoGuard),
     __metadata("design:paramtypes", [info_service_1.InfoService])
 ], InfoController);
 //# sourceMappingURL=info.controller.js.map

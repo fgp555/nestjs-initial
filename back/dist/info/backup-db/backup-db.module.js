@@ -6,21 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InfoGuard = void 0;
+exports.BackupDBModule = void 0;
 const common_1 = require("@nestjs/common");
-let InfoGuard = class InfoGuard {
-    canActivate(context) {
-        const request = context.switchToHttp().getRequest();
-        const authHeader = request.headers['authorization'];
-        const expectedPassword = 'P4s5W0rD@123';
-        if (authHeader !== expectedPassword) {
-            throw new common_1.UnauthorizedException('Unauthorized');
-        }
-        return true;
-    }
+const backup_db_controller_1 = require("./backup-db.controller");
+const backup_db_service_1 = require("./backup-db.service");
+let BackupDBModule = class BackupDBModule {
 };
-exports.InfoGuard = InfoGuard;
-exports.InfoGuard = InfoGuard = __decorate([
-    (0, common_1.Injectable)()
-], InfoGuard);
-//# sourceMappingURL=auth.guard.js.map
+exports.BackupDBModule = BackupDBModule;
+exports.BackupDBModule = BackupDBModule = __decorate([
+    (0, common_1.Module)({
+        controllers: [backup_db_controller_1.BackupDBController],
+        providers: [backup_db_service_1.BackupDBService],
+    })
+], BackupDBModule);
+//# sourceMappingURL=backup-db.module.js.map

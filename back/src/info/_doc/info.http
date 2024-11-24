@@ -39,6 +39,10 @@ Authorization: 1234
 GET http://localhost:3000/api/info/cookies
 Authorization: {{Authorization}}
 
+### dropDatabase
+DELETE http://localhost:3000/api/info/dropDatabase
+Authorization: true
+
 ### resetDatabase
 DELETE http://localhost:3000/api/info/resetDatabase
 Authorization: {{Authorization}}
@@ -63,4 +67,8 @@ DROPSCHEMA=true
 
 ### Get .env File Content
 GET http://localhost:3000/api/info/env
+Authorization: {{Authorization}}
+
+### backup
+GET http://localhost:3000/api/info/backup
 Authorization: {{Authorization}}

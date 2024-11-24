@@ -4,3 +4,4 @@ front.txt
 uploads
 *.env.prod*
 node_modules
+backups

@@ -14,4 +14,6 @@ npm i --save-dev @types/multer @types/fs-extra
 
 npm install class-validator class-transformer
 
+npm install --save child_process
+
 ```

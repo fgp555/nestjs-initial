@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { HttpAdapterHost } from '@nestjs/core';
 import { conectionSource } from 'src/config/typeorm';
+import { exec } from 'child_process';
 
 @Injectable()
 export class InfoService {
@@ -42,6 +43,14 @@ export class InfoService {
       serverTime,
       databaseTime,
     };
+  }
+
+  async dropDatabase() {
+    // Eliminar el esquema
+    await this.dataSource.dropDatabase();
+    console.log('Database schema dropped successfully');
+
+    return 'dropDatabase successfully';
   }
 
   async resetDatabase() {

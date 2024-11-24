@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Database Backup Service</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <link rel="stylesheet" href="https://frank-gp.github.io/icon/icomoon/style.css" />
+    <style>
+      .files-list {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 1em;
+      }
+      .button {
+        padding: 0.2em 0.5em;
+        margin-left: 0.5em;
+        aspect-ratio: 1 / 1;
+        display: inline-block;
+        /* font-size: 0.8em; */
+        border: none;
+      }
+      .button-danger {
+        background-color: red;
+        /* border: none; */
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+    <main class="container">
+      <article>
+        <h1>Database Backup Service</h1>
+
+        <div>
+          <button onclick="createBackup()">Create Backup</button>
+          <button onclick="fetchBackupFiles()">Display Backup Files</button>
+        </div>
+      </article>
+      <article class="files-list" id="files-list"></article>
+    </main>
+    <footer></footer>
+    <script>
+      // Function to create a new backup
+      function createBackup() {
+        fetch(`/api/database/backup`, {
+          method: "GET",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(`Backup created! File: ${data.message}`);
+            console.log("data", data);
+            fetchBackupFiles(); // Refresh file list after backup creation
+          })
+          .catch((error) => {
+            alert("Error creating backup: " + error.message);
+          });
+      }
+
+      // Function to fetch and display backup files
+      function fetchBackupFiles() {
+        fetch("/api/database/display-backups-files")
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("data", data);
+            const filesList = document.getElementById("files-list");
+            filesList.innerHTML = ""; // Clear the previous list
+
+            if (data.files && data.files.length > 0) {
+              data.files.forEach((file) => {
+                const fileHTML = `
+                <div class="file-item">
+                  <span>${file}</span>
+                  <button onclick="restoreBackupFile('${file}')" class="button outline">
+                    <i class="icon-reload"></i>
+                  </button>
+                  <a role="button" class="button contrast" href="/api/database/download-backup/${file}">
+                    <i class="icon-download"></i>
+                  </a>
+                  <button onclick="deleteBackupFile('${file}')" class="button button-danger">
+                    <i class="icon-trash"></i>
+                  </button>
+                </div>
+                `;
+
+                // Inject the created HTML into the file list container
+                filesList.insertAdjacentHTML("beforeend", fileHTML);
+              });
+            } else {
+              filesList.innerHTML = "<p>No backup files found.</p>";
+            }
+          })
+          .catch((error) => {
+            alert("Error fetching backup files: " + error.message);
+          });
+      }
+
+      // Function to restore a backup file
+      function restoreBackupFile(file) {
+        if (confirm(`Are you sure you want to restore the database from: ${file}?`)) {
+          fetch(`/api/database/restore-file-backup/${file}`, {
+            method: "POST",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert(`Database restored from ${file}: ${data.message}`);
+            })
+            .catch((error) => {
+              alert("Error restoring database: " + error.message);
+            });
+        }
+      }
+
+      // Function to delete a backup file
+      function deleteBackupFile(file) {
+        if (confirm(`Are you sure you want to delete the file: ${file}?`)) {
+          fetch(`/api/database/delete/${file}`, {
+            method: "DELETE",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert(`File ${file} deleted!`);
+              fetchBackupFiles(); // Refresh file list after deletion
+            })
+            .catch((error) => {
+              alert("Error deleting file: " + error.message);
+            });
+        }
+      }
+
+      // Initially fetch and display the backup files
+      fetchBackupFiles();
+    </script>
+  </body>
+</html>

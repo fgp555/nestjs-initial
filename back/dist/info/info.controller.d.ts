@@ -965,6 +965,7 @@ export declare class InfoController {
         databaseId?: string;
     };
     resetDatabase(request: Request): Promise<string>;
+    dropDatabase(request: Request): Promise<string>;
     getPackageInfo(): any;
     getServerDomain(request: Request): {
         domain: string;

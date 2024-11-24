@@ -10,11 +10,13 @@ exports.InfoModule = void 0;
 const common_1 = require("@nestjs/common");
 const info_service_1 = require("./info.service");
 const info_controller_1 = require("./info.controller");
+const backup_db_module_1 = require("./backup-db/backup-db.module");
 let InfoModule = class InfoModule {
 };
 exports.InfoModule = InfoModule;
 exports.InfoModule = InfoModule = __decorate([
     (0, common_1.Module)({
+        imports: [backup_db_module_1.BackupDBModule],
         controllers: [info_controller_1.InfoController],
         providers: [info_service_1.InfoService],
     })
