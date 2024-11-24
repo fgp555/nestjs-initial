@@ -8,53 +8,51 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserSeederService = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("../entities/user.entity");
-const typeorm_2 = require("typeorm");
+const user_service_1 = require("../user.service");
 let UserSeederService = class UserSeederService {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
+    constructor(userService) {
+        this.userService = userService;
     }
     async seed() {
-        const usersData = [
+        const users = [
             {
-                email: 'john.doe@example.com',
+                name: 'Alice',
+                email: 'alice@example.com',
                 password: 'password123',
-                name: 'John',
             },
             {
-                email: 'jane.doe@example.com',
+                name: 'Bob',
+                email: 'bob@example.com',
                 password: 'password123',
-                name: 'Jane',
+            },
+            {
+                name: 'Charlie',
+                email: 'charlie@example.com',
+                password: 'password123',
             },
         ];
-        const savedUsers = [];
-        for (const userData of usersData) {
-            const existingUser = await this.userRepository.findOne({
-                where: { email: userData.email },
-            });
-            if (!existingUser) {
-                const user = await this.userRepository.save(userData);
-                savedUsers.push(user);
+        for (const user of users) {
+            try {
+                const existingUser = await this.userService.findByEmail(user.email);
+                if (existingUser) {
+                    console.log(`User with email ${user.email} already exists.`);
+                    continue;
+                }
+                await this.userService.create(user);
+                console.log(`User ${user.name} created successfully.`);
             }
-            else {
-                console.log(`Usuarios ya existe, omitiendo creación.`);
-                return;
+            catch (error) {
+                console.error(`Failed to create user ${user.name}: ${error.message}`);
             }
         }
-        console.log('Seeder de usuarios creados con éxito');
     }
 };
 exports.UserSeederService = UserSeederService;
 exports.UserSeederService = UserSeederService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.UserEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserSeederService);
 //# sourceMappingURL=user.seeder.js.map

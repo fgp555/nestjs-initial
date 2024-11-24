@@ -16,6 +16,7 @@ const os = require("os");
 const fs = require("fs");
 const path = require("path");
 const core_1 = require("@nestjs/core");
+const typeorm_2 = require("../config/typeorm");
 let InfoService = class InfoService {
     constructor(dataSource, httpAdapterHost) {
         this.dataSource = dataSource;
@@ -127,6 +128,35 @@ let InfoService = class InfoService {
             };
         });
         return sortedEndpoints;
+    }
+    async runMigrations() {
+        const dataSource = await typeorm_2.conectionSource.initialize();
+        try {
+            const result = await dataSource.runMigrations();
+            return {
+                message: 'Migraciones ejecutadas con éxito',
+                details: result,
+            };
+        }
+        catch (error) {
+            throw new Error(`Error ejecutando migraciones: ${error.message}`);
+        }
+        finally {
+            await dataSource.destroy();
+        }
+    }
+    async readEnvFile() {
+        const envFilePath = path.join(__dirname, '../../', '.env');
+        try {
+            const envFileContent = await fs.promises.readFile(envFilePath, 'utf8');
+            if (!envFileContent) {
+                throw new common_1.NotFoundException('.env file not found');
+            }
+            return envFileContent;
+        }
+        catch (error) {
+            throw new common_1.NotFoundException('Error reading .env file: ' + error.message);
+        }
     }
 };
 exports.InfoService = InfoService;

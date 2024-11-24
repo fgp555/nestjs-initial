@@ -21,20 +21,38 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    create(createUserDto) {
-        return this.userService.create(createUserDto);
+    async create(createUserDto) {
+        if (!Object.keys(createUserDto).length) {
+            throw new common_1.BadRequestException('Request body cannot be empty');
+        }
+        return await this.userService.create(createUserDto);
     }
-    findAll() {
-        return this.userService.findAll();
+    async findAll() {
+        return await this.userService.findAll();
     }
-    findOne(id) {
-        return this.userService.findOne(id);
+    async findByEmail(email) {
+        if (!email) {
+            throw new common_1.BadRequestException('Email query parameter must be provided');
+        }
+        return await this.userService.findByEmail(email);
     }
-    update(id, updateUserDto) {
-        return this.userService.update(id, updateUserDto);
+    async findOne(id) {
+        if (!id || isNaN(Number(id))) {
+            throw new common_1.BadRequestException('Invalid ID format');
+        }
+        return await this.userService.findOne(id);
     }
-    remove(id) {
-        return this.userService.remove(id);
+    async update(id, updateUserDto) {
+        if (!Object.keys(updateUserDto).length) {
+            throw new common_1.BadRequestException('Update body cannot be empty');
+        }
+        return await this.userService.update(id, updateUserDto);
+    }
+    async remove(id) {
+        if (!id || isNaN(Number(id))) {
+            throw new common_1.BadRequestException('Invalid ID format');
+        }
+        return await this.userService.remove(id);
     }
 };
 exports.UserController = UserController;
@@ -51,6 +69,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('by-email'),
+    __param(0, (0, common_1.Query)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "findByEmail", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),

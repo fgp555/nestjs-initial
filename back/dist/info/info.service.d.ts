@@ -984,4 +984,9 @@ export declare class InfoService {
         path: any;
         methods: any;
     }[];
+    runMigrations(): Promise<{
+        message: string;
+        details: import("typeorm").Migration[];
+    }>;
+    readEnvFile(): Promise<string>;
 }

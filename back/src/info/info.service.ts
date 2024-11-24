@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import * as os from 'os';
 import * as fs from 'fs';
@@ -157,6 +157,22 @@ export class InfoService {
       throw new Error(`Error ejecutando migraciones: ${error.message}`);
     } finally {
       await dataSource.destroy();
+    }
+  }
+
+  // Method to read and return the .env file contents
+  async readEnvFile(): Promise<string> {
+    const envFilePath = path.join(__dirname, '../../', '.env');
+
+    try {
+      // Read the content of the .env file
+      const envFileContent = await fs.promises.readFile(envFilePath, 'utf8');
+      if (!envFileContent) {
+        throw new NotFoundException('.env file not found');
+      }
+      return envFileContent;
+    } catch (error) {
+      throw new NotFoundException('Error reading .env file: ' + error.message);
     }
   }
 }

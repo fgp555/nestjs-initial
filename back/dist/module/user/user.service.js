@@ -22,29 +22,65 @@ let UserService = class UserService {
         this.userRepository = userRepository;
     }
     async create(createUserDto) {
-        const user = this.userRepository.create(createUserDto);
-        return this.userRepository.save(user);
+        const existingUser = await this.findByEmail(createUserDto.email).catch(() => null);
+        if (existingUser) {
+            throw new common_1.ConflictException('Email already exists');
+        }
+        try {
+            const user = this.userRepository.create(createUserDto);
+            return await this.userRepository.save(user);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Failed to create user', error.message);
+        }
     }
     async findAll() {
-        return this.userRepository.find();
+        try {
+            return await this.userRepository.find();
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Failed to fetch users', error.message);
+        }
+    }
+    async findByEmail(email) {
+        if (!email) {
+            throw new common_1.BadRequestException('Email must be provided');
+        }
+        const user = await this.userRepository.findOne({
+            where: { email },
+        });
+        return user || null;
     }
     async findOne(id) {
+        if (!id || isNaN(Number(id))) {
+            throw new common_1.BadRequestException('Invalid ID format');
+        }
         const user = await this.userRepository.findOne({
             where: { id: Number(id) },
         });
         if (!user) {
-            throw new common_1.NotFoundException(`User with id ${id} not found`);
+            throw new common_1.NotFoundException(`User with ID ${id} not found`);
         }
         return user;
     }
     async update(id, updateUserDto) {
         await this.findOne(id);
-        await this.userRepository.update(id, updateUserDto);
-        return this.findOne(id);
+        try {
+            await this.userRepository.update(id, updateUserDto);
+            return this.findOne(id);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Failed to update user', error.message);
+        }
     }
     async remove(id) {
         const user = await this.findOne(id);
-        return await this.userRepository.remove(user);
+        try {
+            return await this.userRepository.remove(user);
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Failed to delete user', error.message);
+        }
     }
 };
 exports.UserService = UserService;

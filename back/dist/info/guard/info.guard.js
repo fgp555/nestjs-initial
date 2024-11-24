@@ -6,21 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.InfoGuard = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const user_module_1 = require("./module/user/user.module");
-const info_module_1 = require("./info/info.module");
-const db_module_1 = require("./config/db.module");
-let AppModule = class AppModule {
+let InfoGuard = class InfoGuard {
+    canActivate(context) {
+        const request = context.switchToHttp().getRequest();
+        const authHeader = request.headers['authorization'];
+        const expectedPassword = atob('UDRzNVcwckRAMTIz');
+        if (authHeader !== expectedPassword) {
+            throw new common_1.UnauthorizedException('Unauthorized');
+        }
+        return true;
+    }
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
-    (0, common_1.Module)({
-        imports: [db_module_1.DbModule, info_module_1.InfoModule, user_module_1.UserModule],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
-    })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+exports.InfoGuard = InfoGuard;
+exports.InfoGuard = InfoGuard = __decorate([
+    (0, common_1.Injectable)()
+], InfoGuard);
+//# sourceMappingURL=info.guard.js.map

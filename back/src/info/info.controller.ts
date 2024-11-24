@@ -4,12 +4,18 @@ import {
   Delete,
   UnauthorizedException,
   Post,
+  Body,
+  UseGuards,
 } from '@nestjs/common';
 import { InfoService } from './info.service';
 import { Request } from 'express';
 import { Req } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
+import { InfoGuard } from './guard/info.guard';
 
 @Controller('info')
+@UseGuards(InfoGuard)
 export class InfoController {
   constructor(private readonly infoService: InfoService) {}
 
@@ -94,5 +100,25 @@ export class InfoController {
   @Post('runMigrations')
   async runMigrations() {
     return this.infoService.runMigrations();
+  }
+
+  @Post('create-env')
+  async createEnv(@Body() envData: string) {
+    try {
+      const envFilePath = path.resolve(__dirname, '..', '..', '.env');
+      fs.writeFileSync(envFilePath, envData, 'utf-8');
+      const envContent = await this.infoService.readEnvFile();
+      return envContent;
+    } catch (error) {
+      return {
+        message: 'Error al crear el archivo .env',
+        error: error.message,
+      };
+    }
+  }
+
+  @Get('env')
+  async getEnvFile(): Promise<string> {
+    return this.infoService.readEnvFile();
   }
 }

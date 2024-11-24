@@ -1,3 +1,5 @@
+// back\src\module\user\user.controller.ts
+
 import {
   Controller,
   Get,
@@ -6,6 +8,8 @@ import {
   Patch,
   Param,
   Delete,
+  BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
@@ -17,30 +21,50 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
-    return this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    if (!Object.keys(createUserDto).length) {
+      throw new BadRequestException('Request body cannot be empty');
+    }
+    return await this.userService.create(createUserDto);
   }
 
   @Get()
-  findAll(): Promise<UserEntity[]> {
-    return this.userService.findAll();
+  async findAll(): Promise<UserEntity[]> {
+    return await this.userService.findAll();
+  }
+
+  @Get('by-email')
+  async findByEmail(@Query('email') email: string): Promise<UserEntity> {
+    if (!email) {
+      throw new BadRequestException('Email query parameter must be provided');
+    }
+    return await this.userService.findByEmail(email);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<UserEntity> {
-    return this.userService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<UserEntity> {
+    if (!id || isNaN(Number(id))) {
+      throw new BadRequestException('Invalid ID format');
+    }
+    return await this.userService.findOne(id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<UserEntity> {
-    return this.userService.update(id, updateUserDto);
+    if (!Object.keys(updateUserDto).length) {
+      throw new BadRequestException('Update body cannot be empty');
+    }
+    return await this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<UserEntity> {
-    return this.userService.remove(id);
+  async remove(@Param('id') id: string): Promise<UserEntity> {
+    if (!id || isNaN(Number(id))) {
+      throw new BadRequestException('Invalid ID format');
+    }
+    return await this.userService.remove(id);
   }
 }

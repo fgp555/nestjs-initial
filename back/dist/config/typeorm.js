@@ -9,12 +9,12 @@ console.info('dropSchema: ', process.env.DROPSCHEMA);
 console.info('DB_TYPE: ', process.env.DB_TYPE);
 console.info('DB_DATABASE: ', process.env.DB_DATABASE);
 const typeOrmConfig = {
-    type: process.env.DB_TYPE || 'mysql',
+    type: process.env.DB_TYPE || 'postgres',
     host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306,
-    username: process.env.DB_USERNAME || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_DATABASE || 'my_db',
+    port: process.env.DB_PORT || 5432,
+    username: process.env.DB_USERNAME || 'postgres',
+    password: process.env.DB_PASSWORD || 'admin',
+    database: process.env.DB_DATABASE || 'postgres',
     synchronize: process.env.DROPSCHEMA === 'true',
     dropSchema: process.env.DROPSCHEMA === 'true',
     autoloadEntities: true,

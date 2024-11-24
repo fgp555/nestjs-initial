@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="/component/layout.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
     <title>User Management</title>
     <style>
       body {
@@ -24,19 +24,23 @@
       pre {
         color: #000;
       }
+      section {
+        max-width: 30rem;
+        margin: 2em auto;
+      }
     </style>
   </head>
   <body>
-    <main>
+    <main class="container">
       <h1>User Management</h1>
 
       <section>
         <h2>Create User</h2>
         <form id="createUserForm">
-          <input type="email" id="email" placeholder="Email" value="john.doe@example.com" required /><br />
+          <input type="text" id="name" placeholder="Name" value="Default Name" required /><br />
+          <input type="email" id="email" placeholder="Email" value="default@example.com" required /><br />
           <input type="password" id="password" placeholder="Password" value="password123" required /><br />
-          <input type="text" id="firstName" placeholder="First Name" value="John" required /><br />
-          <input type="text" id="lastName" placeholder="Last Name" value="Doe" required /><br />
+          <input type="url" id="image" placeholder="Image URL (optional)" value="https://bit.ly/fgpImg1" /><br />
           <button type="submit">Create User</button>
         </form>
       </section>
@@ -55,17 +59,24 @@
       </section>
 
       <section>
+        <h2>Get User by Email</h2>
+        <input type="email" id="getUserEmail" placeholder="User Email" value="bob@example.com" /><br />
+        <button id="getUserByEmailBtn">Get User by Email</button>
+        <pre id="getUserByEmailOutput"></pre>
+      </section>
+
+      <section>
         <h2>Update User by ID</h2>
-        <input type="number" id="updateUserId" placeholder="User ID" value="1" /><br />
-        <input type="text" id="updateFirstName" placeholder="New First Name" value="Johnathan" /><br />
-        <input type="text" id="updateLastName" placeholder="New Last Name" value="Doe" /><br />
+        <input type="number" id="updateUserId" placeholder="User ID" value="1" required /><br />
+        <input type="text" id="updateName" placeholder="New Name" value="Updated Name" /><br />
+        <input type="url" id="updateImage" placeholder="New Image URL" value="https://bit.ly/fgpImg1" /><br />
         <button id="updateUserBtn">Update User</button>
         <pre id="updateUserOutput"></pre>
       </section>
 
       <section>
         <h2>Delete User by ID</h2>
-        <input type="number" id="deleteUserId" placeholder="User ID" value="1" /><br />
+        <input type="number" id="deleteUserId" placeholder="User ID" value="1" required /><br />
         <button id="deleteUserBtn">Delete User</button>
         <pre id="deleteUserOutput"></pre>
       </section>
@@ -75,61 +86,100 @@
         const apiUrlBase = isLocalhost ? "http://localhost:3000" : "";
         const apiUrl = `${apiUrlBase}/api/users`;
 
+        const handleError = async (response) => {
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || response.statusText);
+          }
+          return response.json();
+        };
+
         // Create User
         document.getElementById("createUserForm").addEventListener("submit", async (event) => {
           event.preventDefault();
+          const name = document.getElementById("name").value;
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
-          const firstName = document.getElementById("firstName").value;
-          const lastName = document.getElementById("lastName").value;
+          const image = document.getElementById("image").value || undefined;
 
-          const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password, firstName, lastName }),
-          });
-          const result = await response.json();
-          alert("User created: " + JSON.stringify(result));
+          try {
+            const response = await fetch(apiUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, email, password, image }),
+            });
+            const result = await handleError(response);
+            alert("User created successfully: " + JSON.stringify(result.email, null, 2));
+          } catch (error) {
+            alert("Error: " + error.message);
+          }
         });
 
         // Get All Users
         document.getElementById("getAllUsersBtn").addEventListener("click", async () => {
-          const response = await fetch(apiUrl);
-          const result = await response.json();
-          document.getElementById("allUsersOutput").textContent = JSON.stringify(result, null, 2);
+          try {
+            const response = await fetch(apiUrl);
+            const result = await handleError(response);
+            document.getElementById("allUsersOutput").textContent = JSON.stringify(result, null, 2);
+          } catch (error) {
+            document.getElementById("allUsersOutput").textContent = error.message;
+          }
         });
 
         // Get User by ID
         document.getElementById("getUserBtn").addEventListener("click", async () => {
           const userId = document.getElementById("getUserId").value;
-          const response = await fetch(`${apiUrl}/${userId}`);
-          const result = await response.json();
-          document.getElementById("getUserOutput").textContent = JSON.stringify(result, null, 2);
+          try {
+            const response = await fetch(`${apiUrl}/${userId}`);
+            const result = await handleError(response);
+            document.getElementById("getUserOutput").textContent = JSON.stringify(result, null, 2);
+          } catch (error) {
+            document.getElementById("getUserOutput").textContent = error.message;
+          }
+        });
+
+        // Get User by Email
+        document.getElementById("getUserByEmailBtn").addEventListener("click", async () => {
+          const userEmail = document.getElementById("getUserEmail").value;
+          try {
+            const response = await fetch(`${apiUrl}/by-email?email=${userEmail}`);
+            const result = await handleError(response);
+            document.getElementById("getUserByEmailOutput").textContent = JSON.stringify(result, null, 2);
+          } catch (error) {
+            document.getElementById("getUserByEmailOutput").textContent = error.message;
+          }
         });
 
         // Update User by ID
         document.getElementById("updateUserBtn").addEventListener("click", async () => {
           const userId = document.getElementById("updateUserId").value;
-          const firstName = document.getElementById("updateFirstName").value;
-          const lastName = document.getElementById("updateLastName").value;
-
-          const response = await fetch(`${apiUrl}/${userId}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ firstName, lastName }),
-          });
-          const result = await response.json();
-          document.getElementById("updateUserOutput").textContent = JSON.stringify(result, null, 2);
+          const name = document.getElementById("updateName").value;
+          const image = document.getElementById("updateImage").value || undefined;
+          try {
+            const response = await fetch(`${apiUrl}/${userId}`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, image }),
+            });
+            const result = await handleError(response);
+            document.getElementById("updateUserOutput").textContent = JSON.stringify(result, null, 2);
+          } catch (error) {
+            document.getElementById("updateUserOutput").textContent = error.message;
+          }
         });
 
         // Delete User by ID
         document.getElementById("deleteUserBtn").addEventListener("click", async () => {
           const userId = document.getElementById("deleteUserId").value;
-          const response = await fetch(`${apiUrl}/${userId}`, {
-            method: "DELETE",
-          });
-          const result = await response.json();
-          document.getElementById("deleteUserOutput").textContent = JSON.stringify(result, null, 2);
+          try {
+            const response = await fetch(`${apiUrl}/${userId}`, {
+              method: "DELETE",
+            });
+            const result = await handleError(response);
+            document.getElementById("deleteUserOutput").textContent = `User ${userId} deleted successfully.`;
+          } catch (error) {
+            document.getElementById("deleteUserOutput").textContent = error.message;
+          }
         });
       </script>
     </main>

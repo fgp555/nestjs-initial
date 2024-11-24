@@ -1,7 +1,6 @@
-import { UserEntity } from '../entities/user.entity';
-import { Repository } from 'typeorm';
+import { UserService } from '../user.service';
 export declare class UserSeederService {
-    private readonly userRepository;
-    constructor(userRepository: Repository<UserEntity>);
+    private readonly userService;
+    constructor(userService: UserService);
     seed(): Promise<void>;
 }

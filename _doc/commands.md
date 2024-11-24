@@ -11,4 +11,7 @@ npm i class-validator class-transformer
 
 npm i @nestjs/platform-express multer fs-extra
 npm i --save-dev @types/multer @types/fs-extra 
+
+npm install class-validator class-transformer
+
 ```

@@ -1,47 +1,48 @@
+// back\src\module\user\seed\user.seeder.ts
+
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '../entities/user.entity';
-import { Repository } from 'typeorm';
+import { UserService } from '../user.service';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 @Injectable()
 export class UserSeederService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   async seed() {
-    // Datos de usuarios
-    const usersData = [
+    // Crear usuarios de ejemplo
+    const users: CreateUserDto[] = [
       {
-        email: 'john.doe@example.com',
+        name: 'Alice',
+        email: 'alice@example.com',
         password: 'password123',
-        name: 'John',
       },
       {
-        email: 'jane.doe@example.com',
+        name: 'Bob',
+        email: 'bob@example.com',
         password: 'password123',
-        name: 'Jane',
+      },
+      {
+        name: 'Charlie',
+        email: 'charlie@example.com',
+        password: 'password123',
       },
     ];
 
-    // Guardar usuarios
-    const savedUsers = [];
-    for (const userData of usersData) {
-      // Verificar si el usuario ya existe
-      const existingUser = await this.userRepository.findOne({
-        where: { email: userData.email },
-      });
+    // Insertar los usuarios en la base de datos
+    for (const user of users) {
+      try {
+        // Verificar si el usuario con el email ya existe
+        const existingUser = await this.userService.findByEmail(user.email);
+        if (existingUser) {
+          console.log(`User with email ${user.email} already exists.`);
+          continue; // Salta la creación de este usuario
+        }
 
-      if (!existingUser) {
-        const user = await this.userRepository.save(userData);
-        savedUsers.push(user);
-      } else {
-        console.log(`Usuarios ya existe, omitiendo creación.`);
-        return;
+        await this.userService.create(user);
+        console.log(`User ${user.name} created successfully.`);
+      } catch (error) {
+        console.error(`Failed to create user ${user.name}: ${error.message}`);
       }
     }
-
-    console.log('Seeder de usuarios creados con éxito');
   }
 }

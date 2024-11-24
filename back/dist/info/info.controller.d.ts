@@ -988,4 +988,13 @@ export declare class InfoController {
     };
     private parseCookies;
     getAllEndpoints(): any[];
+    runMigrations(): Promise<{
+        message: string;
+        details: import("typeorm").Migration[];
+    }>;
+    createEnv(envData: string): Promise<string | {
+        message: string;
+        error: any;
+    }>;
+    getEnvFile(): Promise<string>;
 }

@@ -1,36 +1,66 @@
+@host=http://localhost:3000/api
+@Authorization=P4s5W0rD@123
+
 ### 
 GET http://localhost:3000/api/info/
+Authorization: {{Authorization}}
 
 ### endpoints
 GET http://localhost:3000/api/info/endpoints
+Authorization: {{Authorization}}
 
 ### system
 GET http://localhost:3000/api/info/system
+Authorization: {{Authorization}}
 
 ### time
 GET http://localhost:3000/api/info/time
+Authorization: {{Authorization}}
 
 ### infoDatabase
 GET http://localhost:3000/api/info/infoDatabase
+Authorization: {{Authorization}}
 
 ### entities
 GET http://localhost:3000/api/info/entities
+Authorization: {{Authorization}}
 
 ### package.json
 GET http://localhost:3000/api/info/package.json
+Authorization: {{Authorization}}
 
 ### domain
 GET http://localhost:3000/api/info/domain
+Authorization: {{Authorization}}
 Content-Type: application/json
 Authorization: 1234
 
 ### cookies
 GET http://localhost:3000/api/info/cookies
+Authorization: {{Authorization}}
 
 ### resetDatabase
 DELETE http://localhost:3000/api/info/resetDatabase
+Authorization: {{Authorization}}
 Authorization: true
-
 
 ### runMigrations
 POST http://localhost:3000/api/info/runMigrations
+Authorization: {{Authorization}}
+
+### Create .env File
+POST http://localhost:3000/api/info/create-env
+# Authorization: {{Authorization}}
+Content-Type: text/plain
+
+DB_DATABASE=postgres
+DB_HOST=localhost
+DB_PASSWORD=admin
+DB_PORT=5432
+DB_TYPE=postgres
+DB_USERNAME=postgres
+DROPSCHEMA=true
+
+### Get .env File Content
+GET http://localhost:3000/api/info/env
+Authorization: {{Authorization}}

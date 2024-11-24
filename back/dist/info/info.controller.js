@@ -16,6 +16,9 @@ exports.InfoController = void 0;
 const common_1 = require("@nestjs/common");
 const info_service_1 = require("./info.service");
 const common_2 = require("@nestjs/common");
+const fs = require("fs");
+const path = require("path");
+const info_guard_1 = require("./guard/info.guard");
 let InfoController = class InfoController {
     constructor(infoService) {
         this.infoService = infoService;
@@ -78,6 +81,26 @@ let InfoController = class InfoController {
     getAllEndpoints() {
         return this.infoService.listAllEndpoints();
     }
+    async runMigrations() {
+        return this.infoService.runMigrations();
+    }
+    async createEnv(envData) {
+        try {
+            const envFilePath = path.resolve(__dirname, '..', '..', '.env');
+            fs.writeFileSync(envFilePath, envData, 'utf-8');
+            const envContent = await this.infoService.readEnvFile();
+            return envContent;
+        }
+        catch (error) {
+            return {
+                message: 'Error al crear el archivo .env',
+                error: error.message,
+            };
+        }
+    }
+    async getEnvFile() {
+        return this.infoService.readEnvFile();
+    }
 };
 exports.InfoController = InfoController;
 __decorate([
@@ -137,8 +160,28 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], InfoController.prototype, "getAllEndpoints", null);
+__decorate([
+    (0, common_1.Post)('runMigrations'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], InfoController.prototype, "runMigrations", null);
+__decorate([
+    (0, common_1.Post)('create-env'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], InfoController.prototype, "createEnv", null);
+__decorate([
+    (0, common_1.Get)('env'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], InfoController.prototype, "getEnvFile", null);
 exports.InfoController = InfoController = __decorate([
     (0, common_1.Controller)('info'),
+    (0, common_1.UseGuards)(info_guard_1.InfoGuard),
     __metadata("design:paramtypes", [info_service_1.InfoService])
 ], InfoController);
 //# sourceMappingURL=info.controller.js.map
