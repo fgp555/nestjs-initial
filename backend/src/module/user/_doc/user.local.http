@@ -1,0 +1,102 @@
+@token=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlkIjoxLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczMTg5MjA2MSwiZXhwIjoxNzMyNzU2MDYxfQ.xmMMqF7RLAodN6fc7WkmNtyAM8ymNWGyH4q2YY6NZLg
+@token_user=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlkIjoyLCJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwiaWF0IjoxNzMxODkzNjU5LCJleHAiOjE3MzI3NTc2NTl9.-HQemWKbFIIDSALbyhd9rnCPcdBwygkfp7JqV3KLL3Y
+
+######
+GET http://localhost:3000/api/users/role
+
+######
+GET http://localhost:3000/api/users/role?role=patient&limit=2
+Authorization: {{token}}
+
+######
+GET http://localhost:3000/api/users/role?role=professional
+Authorization: {{token}}
+
+######
+GET http://localhost:3000/api/users/role?role=admin&orderBy=createdAt&order=DESC
+Authorization: {{token}}
+
+###
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+# Authorization: {{token}}
+
+{
+    "firstName": "admin",
+    "lastName": "last admin",
+    "whatsapp": "123456789",
+    "username": "admin",
+    "email": "admin@gmail.com",
+    "password": "P4ssWord@123",
+    "confirmPassword": "P4ssWord@123",
+    "birthdate": "2000-01-01",
+    "nDni": "1234567",
+    "role": "admin"
+}
+
+### create patient
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+# Authorization: {{token}}
+
+{
+    "firstName": "Paciente 123",
+    "lastName": "Prueba",
+    "email": "patient31@gmail.com",
+    "whatsapp": "+5491123456497",
+    "nDni": "28675430"
+}
+
+###
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+{
+    "email": "jane.goodall@cliniccare.com",
+    "password": "SecurePass@2023"
+}
+
+###
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+{ "email": "admin@cliniccare.com", "password": "SecurePass@2023" }
+
+###
+GET http://localhost:3000/api/users
+Authorization: {{token}}
+
+###
+GET http://localhost:3000/api/users/9
+Authorization: {{token}}
+
+###
+GET http://localhost:3000/api/users/7
+Authorization: {{token_user}}
+
+###
+PATCH http://localhost:3000/api/auth/update/1
+Content-Type: application/json
+# Authorization: {{token}}
+
+{
+    "title": "Licenciada",
+    "firstName": "Natali http",
+    "lastName": "MR",
+    "email": "nmrusdso@crefi.com",
+    "whatsapp": "+5491123456797",
+    "username": "professional_giovanna",
+    "password": "SecurePass@2023",
+    "confirmPassword": "SecurePass@2023",
+    "birthdate": "1985-08-30",
+    "nDni": "28675431",
+    "role": "professional",
+    "image": "https://i.postimg.cc/HW2KSY5d/02.jpg",
+    "specialization": "RPG, Drenaje Linfático y Pilates",
+    "bio": "Licenciada Martínez Russo Giovanna cuenta con experiencia en Reeducación Postural Global (RPG), drenaje linfático y Pilates. Su dedicación y conocimientos avanzados en estas áreas son fundamentales para nuestro equipo."
+  }
+
+###
+DELETE  http://localhost:3000/api/users/5
+Authorization: {{token}}
+

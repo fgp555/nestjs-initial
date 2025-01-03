@@ -1,0 +1,11 @@
+###
+POST http://localhost:3000/api/mail/send
+Content-Type: application/json
+
+{
+  "to": "fgp555@gmail.com",
+  "subject": "Asunto del correo",
+  "text": "Este es el contenido del correo en texto plano",
+  "html": "<p>Este es el contenido del correo en <strong>HTML</strong></p>"
+}
+

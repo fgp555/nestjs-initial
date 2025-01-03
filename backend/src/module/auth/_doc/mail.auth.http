@@ -1,0 +1,27 @@
+###
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+# Authorization: {{token}}
+
+{
+    "firstName": "Frank",
+    "lastName": "GP",
+    "whatsapp": "123456789",
+    "username": "fgp555",
+    "email": "fgp555@gmail.com",
+    "password": "P4ssWord@123",
+    "confirmPassword": "P4ssWord@123",
+    "birthdate": "2000-01-01",
+    "nDni": "1234567",
+    "role": "admin"
+}
+
+###
+GET http://localhost:3000/api/users
+# Authorization: {{token}}
+
+### Get All Email Templates
+GET http://localhost:3000/api/mail-templates
+
+### Get Email Template by ID
+GET http://localhost:3000/api/mail-templates/1

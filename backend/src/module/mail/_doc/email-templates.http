@@ -1,0 +1,48 @@
+@name=Email Templates
+@message=Email Templates API
+### Create a New Email Template
+POST http://localhost:3000/api/mail-templates/sentMailTemplate
+Content-Type: application/json
+
+{
+  "name": "Welcome Email",
+  "subject": "Welcome to Our Service!",
+  "htmlContent": "<!DOCTYPE html><html><head><title>Welcome</title></head><body><h1>Hello {{name}}!</h1><p>{{message}}</p></body></html>"
+}
+
+### Create a New Email Template
+POST http://localhost:3000/api/mail-templates
+Content-Type: application/json
+
+{
+  "name": "Welcome Email",
+  "subject": "Welcome to Our Service!",
+  "htmlContent": "<!DOCTYPE html><html><head><title>Welcome</title></head><body><h1>Hello {{name}}!</h1><p>{{message}}</p></body></html>"
+}
+
+###
+
+### Get All Email Templates
+GET http://localhost:3000/api/mail-templates
+
+###
+
+### Get Email Template by ID
+GET http://localhost:3000/api/mail-templates/2
+
+###
+
+### Update an Email Template
+PUT http://localhost:3000/api/mail-templates/1
+Content-Type: application/json
+
+{
+  "name": "Updated Welcome Email",
+  "subject": "Welcome Aboard!",
+  "htmlContent": "<!DOCTYPE html><html><head><title>Updated Welcome</title></head><body><h1>Hi {{name}}!</h1><p>We're excited to have you with us.</p></body></html>"
+}
+
+###
+
+### Delete an Email Template
+DELETE http://localhost:3000/api/mail-templates/1

@@ -16,4 +16,6 @@ npm install class-validator class-transformer
 
 npm install --save child_process
 
+npm install bcrypt @nestjs/jwt
+
 ```

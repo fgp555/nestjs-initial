@@ -1,0 +1,40 @@
+###
+POST https://crefi.giomr.site/api/database/display_backups_files
+
+###
+POST https://crefi.giomr.site/api/database/create_backup
+###
+POST https://crefi.giomr.site/api/database/create_backup/mysql
+###
+POST https://crefi.giomr.site/api/database/create_backup/postgres
+
+### download
+# GET https://crefi.giomr.site/api/database/download/backup-pg-241201-211331.sql
+# POST https://crefi.giomr.site/api/database/upload_backup
+### restore
+POST https://crefi.giomr.site/api/database/restore/backup-pg-241201-211331.sql
+### delete
+DELETE https://crefi.giomr.site/api/database/delete/backup-pg-241201-211331.sql
+
+
+### Crear un nuevo usuario
+POST https://crefi.giomr.site/api/users
+Content-Type: application/json
+
+{
+  "name": "Frank",
+  "email": "frank123456@example.com",
+  "password": "password123"
+}
+
+### Obtener todos los usuarios
+GET https://crefi.giomr.site/api/users
+
+### dropDatabase
+DELETE https://crefi.giomr.site/api/info/dropDatabase
+Authorization: true
+
+### resetDatabase
+DELETE https://crefi.giomr.site/api/info/resetDatabase
+# Authorization: {{Authorization}}
+Authorization: true

@@ -1,0 +1,65 @@
+@token=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlkIjoxLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczMTg5MjA2MSwiZXhwIjoxNzMyNzU2MDYxfQ.xmMMqF7RLAodN6fc7WkmNtyAM8ymNWGyH4q2YY6NZLg
+@token_user=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlkIjoyLCJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwiaWF0IjoxNzMxODkzNjU5LCJleHAiOjE3MzI3NTc2NTl9.-HQemWKbFIIDSALbyhd9rnCPcdBwygkfp7JqV3KLL3Y
+
+
+###
+POST https://crefi.giomr.site/api/auth/signup
+Content-Type: application/json
+# Authorization: {{token}}
+
+{
+    "firstName": "admin",
+    "lastName": "last admin",
+    "username": "admin",
+    "email": "admin@gmail.com",
+    "password": "P4ssWord@123",
+    "confirmPassword": "P4ssWord@123",
+    "birthdate": "2000-01-01",
+    "nDni": "1234567"
+}
+
+###
+POST https://crefi.giomr.site/api/auth/signin
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "P4ssWord@123"
+}
+
+###
+POST https://crefi.giomr.site/api/auth/signin
+Content-Type: application/json
+
+{
+    "email": "user@gmail.com",
+    "password": "P4ssWord@123"
+}
+
+###
+GET https://crefi.giomr.site/api/users
+Authorization: {{token}}
+
+###
+GET https://crefi.giomr.site/api/users/1
+Authorization: {{token}}
+
+###
+GET https://crefi.giomr.site/api/users/2
+Authorization: {{token_user}}
+
+###
+PATCH https://crefi.giomr.site/api/users/1
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "name": "Update name",
+    "email": "email",
+    "password": "password"
+}
+
+###
+DELETE  https://crefi.giomr.site/api/users/1
+Authorization: {{token}}
+
