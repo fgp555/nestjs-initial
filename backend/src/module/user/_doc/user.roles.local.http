@@ -1,0 +1,17 @@
+@token=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlkIjoxLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczMTg5MjA2MSwiZXhwIjoxNzMyNzU2MDYxfQ.xmMMqF7RLAodN6fc7WkmNtyAM8ymNWGyH4q2YY6NZLg
+@token_user=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlkIjoyLCJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwiaWF0IjoxNzMxODkzNjU5LCJleHAiOjE3MzI3NTc2NTl9.-HQemWKbFIIDSALbyhd9rnCPcdBwygkfp7JqV3KLL3Y
+
+######
+GET http://localhost:3000/api/users/role
+
+######
+GET http://localhost:3000/api/users/role?role=user&limit=2
+Authorization: {{token}}
+
+######
+GET http://localhost:3000/api/users/role?role=professional
+Authorization: {{token}}
+
+######
+GET http://localhost:3000/api/users/role?role=admin&orderBy=createdAt&order=DESC
+Authorization: {{token}}

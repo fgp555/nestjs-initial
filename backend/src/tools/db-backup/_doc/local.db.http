@@ -1,0 +1,40 @@
+###
+POST http://localhost:3000/api/database/display_backups_files
+
+###
+POST http://localhost:3000/api/database/create_backup
+###
+POST http://localhost:3000/api/database/create_backup/mysql
+###
+POST http://localhost:3000/api/database/create_backup/postgres
+
+### download
+# GET http://localhost:3000/api/database/download/backup-pg-241201-211331.sql
+# POST http://localhost:3000/api/database/upload_backup
+### restore
+POST http://localhost:3000/api/database/restore/backup-pg-241201-211331.sql
+### delete
+DELETE http://localhost:3000/api/database/delete/backup-pg-241201-211331.sql
+
+
+### Crear un nuevo usuario
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "name": "Frank",
+  "email": "frank123456@example.com",
+  "password": "password123"
+}
+
+### Obtener todos los usuarios
+GET http://localhost:3000/api/users
+
+### dropDatabase
+DELETE http://localhost:3000/api/info/dropDatabase
+Authorization: true
+
+### resetDatabase
+DELETE http://localhost:3000/api/info/resetDatabase
+# Authorization: {{Authorization}}
+Authorization: true

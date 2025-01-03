@@ -1,0 +1,81 @@
+@token=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlkIjoxLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczMTg5MjA2MSwiZXhwIjoxNzMyNzU2MDYxfQ.xmMMqF7RLAodN6fc7WkmNtyAM8ymNWGyH4q2YY6NZLg
+
+###
+GET http://localhost:3000/api/users
+Authorization: {{token}}
+
+###
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+{
+    "firstName": "Frank Admin",
+    "lastName": "GP",
+    "whatsapp": "999888777",
+    "username": "frankgp",
+    "email": "fgp555@gmail.com",
+    "password": "P4ssWord@123",
+    "confirmPassword": "P4ssWord@123",
+    "birthdate": "2000-01-01",
+    "nDni": "87654321",
+    "role": "admin",
+    "title": "Title user",
+    "specialization": "specialization description",
+    "bio": "bio description",
+    "gender": "man",
+    "sendMail": false,
+    "image": "https://bit.ly/fgpImg1"
+}
+
+###
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+{
+    "email": "fgp555@gmail.com",
+    "password": "P4ssWord@123"
+}
+
+
+### create user role
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+{
+    "firstName": "Paciente 123",
+    "email": "jane.goodall@cliniccare.com",
+    "password": "SecurePass@2023",
+    "sendMail": false
+
+}
+
+###
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+{
+    "email": "jane.goodall@cliniccare.com",
+    "password": "SecurePass@2023"
+}
+
+###
+PATCH http://localhost:3000/api/auth/update/1
+Content-Type: application/json
+# Authorization: {{token}}
+
+{
+    "title": "Licenciada",
+    "firstName": "Ana",
+    "lastName": "Einsten",
+    "whatsapp": "+987654321",
+    "username": "user123",
+    "email": "jane.goodall@cliniccare.com",
+    "password": "SecurePass@2023",
+    "confirmPassword": "SecurePass@2023",
+    "birthdate": "1985-08-30",
+    "nDni": "28675431",
+    "role": "professional",
+    "image": "https://i.postimg.cc/HW2KSY5d/02.jpg",
+    "specialization": "RPG, Drenaje Linfático y Pilates",
+    "bio": "Licenciada Martínez Russo Giovanna cuenta con experiencia en Reeducación Postural Global (RPG), drenaje linfático y Pilates. Su dedicación y conocimientos avanzados en estas áreas son fundamentales para nuestro equipo."
+}

@@ -1,0 +1,74 @@
+@host=http://crefi.giomr.site/api
+@Authorization=P4s5W0rD@123
+
+### 
+GET http://crefi.giomr.site/api/info/
+Authorization: {{Authorization}}
+
+### endpoints
+GET http://crefi.giomr.site/api/info/endpoints
+Authorization: {{Authorization}}
+
+### system
+GET http://crefi.giomr.site/api/info/system
+Authorization: {{Authorization}}
+
+### time
+GET http://crefi.giomr.site/api/info/time
+Authorization: {{Authorization}}
+
+### infoDatabase
+GET http://crefi.giomr.site/api/info/infoDatabase
+Authorization: {{Authorization}}
+
+### entities
+GET http://crefi.giomr.site/api/info/entities
+Authorization: {{Authorization}}
+
+### package.json
+GET http://crefi.giomr.site/api/info/package.json
+Authorization: {{Authorization}}
+
+### domain
+GET http://crefi.giomr.site/api/info/domain
+Authorization: {{Authorization}}
+Content-Type: application/json
+Authorization: 1234
+
+### cookies
+GET http://crefi.giomr.site/api/info/cookies
+Authorization: {{Authorization}}
+
+### dropDatabase
+DELETE http://crefi.giomr.site/api/info/dropDatabase
+Authorization: true
+
+### resetDatabase
+DELETE http://crefi.giomr.site/api/info/resetDatabase
+Authorization: {{Authorization}}
+Authorization: true
+
+### runMigrations
+POST http://crefi.giomr.site/api/info/runMigrations
+Authorization: {{Authorization}}
+
+### Create .env File
+POST http://crefi.giomr.site/api/info/create-env
+# Authorization: {{Authorization}}
+Content-Type: text/plain
+
+DB_DATABASE=postgres
+DB_HOST=localhost
+DB_PASSWORD=admin
+DB_PORT=5432
+DB_TYPE=postgres
+DB_USERNAME=postgres
+DROPSCHEMA=true
+
+### Get .env File Content
+GET http://crefi.giomr.site/api/info/env
+Authorization: {{Authorization}}
+
+### backup
+GET http://crefi.giomr.site/api/info/backup
+Authorization: {{Authorization}}
